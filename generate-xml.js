@@ -49,7 +49,7 @@ async function filterAndAppend(feedData, keyword, filename) {
   const existingLinks = new Set(existingItems.map(i => i.link[0]));
   const uniqueNewItems = newItems.filter(item => !existingLinks.has(item.link[0]));
 
-  // Append newest items at top
+  // Prepend newest items
   let combinedItems = [...uniqueNewItems, ...existingItems];
 
   // Limit to MAX_ARTICLES
