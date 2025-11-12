@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Samakal Feeds</title>
+<style>
+  body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+  h2 { margin-top: 40px; }
+  ul { list-style-type: none; padding: 0; }
+  li { margin-bottom: 10px; }
+  a { text-decoration: none; color: #1a73e8; }
+  a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<h1>Samakal Feeds</h1>
+
+<section id="international">
+  <h2>International</h2>
+  <ul></ul>
+</section>
+
+<section id="opinion">
+  <h2>Opinion</h2>
+  <ul></ul>
+</section>
+
+<script>
+async function loadFeed(feedFile, sectionId) {
+  try {
+    const response = await fetch(feedFile);
+    const text = await response.text();
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(text, "text/xml");
+    const items = xmlDoc.getElementsByTagName("item");
+    const ul = document.querySelector(`#${sectionId} ul`);
+
+    for (let i = 0; i < items.length; i++) {
+      const title = items[i].getElementsByTagName("title")[0].textContent;
+      const link = items[i].getElementsByTagName("link")[0].textContent;
+      const li = document.createElement("li");
+      li.innerHTML = `<a href="${link}" target="_blank">${title}</a>`;
+      ul.appendChild(li);
+    }
+  } catch (err) {
+    console.error(`Error loading ${feedFile}:`, err);
+  }
+}
+
+loadFeed('feeds/international.xml', 'international');
+loadFeed('feeds/opinion.xml', 'opinion');
+</script>
+
+</body>
+</html>
