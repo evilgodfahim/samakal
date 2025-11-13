@@ -6,8 +6,8 @@ const axios = require('axios');
 
 puppeteer.use(StealthPlugin());
 
-// Worker URL as RSS source
-const RSS_URL = 'https://shrill-hall-01a0.srkfahim23.workers.dev/?url=https://samakal.com/rss';
+// Use Worker URL from GitHub secret
+const RSS_URL = process.env.WK;
 const OUTPUT_DIR = './feeds';
 const MAX_ARTICLES = 500;
 
