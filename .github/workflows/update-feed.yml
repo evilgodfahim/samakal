@@ -13,7 +13,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Cache node_modules
       - name: Cache Node modules
         uses: actions/cache@v3
         with:
