@@ -2,7 +2,7 @@ name: Update Samakal Feed
 
 on:
   schedule:
-    - cron: '0 16 * * *'  # every day at 10:00 PM Bangladesh time
+    - cron: '0 * * * *'  # every day at 10:00 PM Bangladesh time
   workflow_dispatch:
 
 jobs:
