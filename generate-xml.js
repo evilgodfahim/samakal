@@ -6,7 +6,7 @@ const axios = require('axios');
 
 puppeteer.use(StealthPlugin());
 
-// Use your Worker URL as the RSS source
+// Worker URL as RSS source
 const RSS_URL = 'https://shrill-hall-01a0.srkfahim23.workers.dev/?url=https://samakal.com/rss';
 const OUTPUT_DIR = './feeds';
 const MAX_ARTICLES = 500;
@@ -89,6 +89,7 @@ async function main() {
 
     await filterAndAppend(feedData, '/international/', 'international.xml');
     await filterAndAppend(feedData, '/opinion/', 'opinion.xml');
+    await filterAndAppend(feedData, '/economics/', 'economics.xml');  // new feed
   } catch (err) {
     console.error('Error:', err);
   }
