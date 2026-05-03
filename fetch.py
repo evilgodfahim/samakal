@@ -1,29 +1,27 @@
 import requests
 import sys
 
-FLARESOLVERR_URL = "http://localhost:8191/v1"
 TARGET_URL = "https://samakal.com/opinion"
 
-payload = {
-    "cmd": "request.get",
-    "url": TARGET_URL,
-    "maxTimeout": 60000
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                  "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Referer": "https://www.google.com/",
+    "DNT": "1",
 }
 
-r = requests.post(FLARESOLVERR_URL, json=payload)
-data = r.json()
+r = requests.get(TARGET_URL, headers=HEADERS, timeout=30)
 
-# If FlareSolverr returns an error field, expose it
-if "error" in data:
-    print("FlareSolverr error:", data["error"])
+if r.status_code != 200:
+    print(f"HTTP {r.status_code}")
     sys.exit(1)
 
-# If FlareSolverr fails silently
-if "solution" not in data or "response" not in data["solution"]:
-    print("Invalid FlareSolverr response:", data)
+if "challenge" in r.text.lower() or "cf-chl" in r.text.lower():
+    print("Cloudflare challenge detected — direct request blocked")
     sys.exit(1)
-
-html = data["solution"]["response"]
 
 with open("opinion.html", "w", encoding="utf-8") as f:
-    f.write(html)
+    f.write(r.text)
