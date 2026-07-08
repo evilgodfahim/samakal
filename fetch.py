@@ -7,7 +7,7 @@ TARGET_URL = "https://samakal.com/opinion"
 payload = {
     "cmd": "request.get",
     "url": TARGET_URL,
-    "maxTimeout": 60000
+    "maxTimeout": 120000
 }
 
 r = requests.post(FLARESOLVERR_URL, json=payload)
